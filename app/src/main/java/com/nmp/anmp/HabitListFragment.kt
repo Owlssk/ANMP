@@ -41,6 +41,5 @@ class HabitListFragment : Fragment() {
         fabAdd.setOnClickListener {
             findNavController().navigate(R.id.action_list_to_create)
         }
-        viewModel.refreshData()
     }
 }

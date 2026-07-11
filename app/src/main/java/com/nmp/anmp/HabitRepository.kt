@@ -1,17 +1,34 @@
 package com.nmp.anmp
 
-object HabitRepository {
-    private val habits = mutableListOf<Habit>()
-    private var nextId = 1
-    fun getHabits(): List<Habit> = habits
+import androidx.lifecycle.LiveData
 
-    fun addHabit(name: String, desc: String, goal: Int, unit: String, icon: String) {
-        habits.add(Habit(nextId++, name, desc, goal, 0, unit, icon))
+class HabitRepository(private val habitDao: HabitDao) {
+
+    val allHabits: LiveData<List<Habit>> = habitDao.getAllHabits()
+
+    suspend fun addHabit(name: String, desc: String, goal: Int, unit: String, icon: String) {
+        val habit = Habit(
+            name = name,
+            description = desc,
+            goal = goal,
+            currentProgress = 0,
+            unit = unit,
+            icon = icon
+        )
+        habitDao.insertHabit(habit)
     }
-    fun updateProgress(id: Int, delta: Int) {
-        val habit = habits.find { it.id == id }
-        habit?.let {
-            it.currentProgress = (it.currentProgress + delta).coerceIn(0, it.goal)
-        }
+
+    suspend fun updateProgress(id: Int, delta: Int) {
+        val habit = habitDao.getHabitById(id) ?: return
+        habit.currentProgress = (habit.currentProgress + delta).coerceIn(0, habit.goal)
+        habitDao.updateHabit(habit)
+    }
+
+    suspend fun getHabitById(id: Int): Habit? {
+        return habitDao.getHabitById(id)
+    }
+
+    suspend fun updateHabit(habit: Habit) {
+        habitDao.updateHabit(habit)
     }
 }
