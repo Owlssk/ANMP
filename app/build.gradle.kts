@@ -1,11 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-HEAD
-    id("kotlin-kapt")
-
     alias(libs.plugins.ksp)
-8690864 (Dashboard, Feth Data (Room), Data Binding)
 }
 
 android {
@@ -41,10 +37,6 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-
-    buildFeatures {
-        dataBinding = true
-    }
 }
 
 dependencies {
@@ -65,8 +57,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
 }

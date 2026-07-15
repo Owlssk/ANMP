@@ -8,15 +8,18 @@ import com.nmp.anmp.databinding.ItemHabitBinding
 interface OnHabitInteractionListener {
     fun onPlusClicked(id: Int)
     fun onMinusClicked(id: Int)
+    fun onTitleClicked(id: Int)
 }
 
 class HabitAdapter(
     private var habits: List<Habit>,
-    private val onUpdateProgress: (Int, Int) -> Unit
+    private val onUpdateProgress: (Int, Int) -> Unit,
+    private val onEditHabit: (Int) -> Unit
 ) : RecyclerView.Adapter<HabitAdapter.HabitViewHolder>(), OnHabitInteractionListener {
 
     override fun onPlusClicked(id: Int) = onUpdateProgress(id, 1)
     override fun onMinusClicked(id: Int) = onUpdateProgress(id, -1)
+    override fun onTitleClicked(id: Int) = onEditHabit(id)
 
     class HabitViewHolder(val binding: ItemHabitBinding) : RecyclerView.ViewHolder(binding.root)
 

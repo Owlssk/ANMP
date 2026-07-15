@@ -25,12 +25,26 @@
         <action
             android:id="@+id/action_list_to_create"
             app:destination="@id/createHabitFragment" />
+        <action
+            android:id="@+id/action_list_to_edit"
+            app:destination="@id/editHabitFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/createHabitFragment"
         android:name="com.nmp.anmp.CreateHabitFragment"
-        android:label="Add New Habit"
+        android:label="Create New Habit"
         tools:layout="@layout/fragment_create_habit" />
+
+    <fragment
+        android:id="@+id/editHabitFragment"
+        android:name="com.nmp.anmp.EditHabitFragment"
+        android:label="Update Habit"
+        tools:layout="@layout/fragment_edit_habit">
+        <argument
+            android:name="habitId"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

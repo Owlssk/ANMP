@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HabitListFragment : Fragment() {
+
     private val viewModel: HabitViewModel by viewModels()
     private lateinit var habitAdapter: HabitAdapter
 
@@ -28,9 +29,17 @@ class HabitListFragment : Fragment() {
         val rvHabits = view.findViewById<RecyclerView>(R.id.rvHabits)
         val fabAdd = view.findViewById<FloatingActionButton>(R.id.fabAdd)
 
-        habitAdapter = HabitAdapter(emptyList()) { id, delta ->
-            viewModel.updateProgress(id, delta)
-        }
+        habitAdapter = HabitAdapter(
+            habits = emptyList(),
+            onUpdateProgress = { id, delta ->
+                viewModel.updateProgress(id, delta)
+            },
+            onEditHabit = { id ->
+                val bundle = Bundle()
+                bundle.putInt("habitId", id)
+                findNavController().navigate(R.id.action_list_to_edit, bundle)
+            }
+        )
 
         rvHabits.layoutManager = LinearLayoutManager(context)
         rvHabits.adapter = habitAdapter
@@ -38,6 +47,7 @@ class HabitListFragment : Fragment() {
         viewModel.habitList.observe(viewLifecycleOwner) { habits ->
             habitAdapter.updateData(habits)
         }
+
         fabAdd.setOnClickListener {
             findNavController().navigate(R.id.action_list_to_create)
         }

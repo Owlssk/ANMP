@@ -26,9 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
             ).addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
-                    CoroutineScope(Dispatchers.IO).launch {
-                        instance?.userDao()?.insertUser(User("student", "123"))
-                    }
+                    db.execSQL("INSERT INTO user (username, password) VALUES ('student', '123')")
                 }
             }).build()
         }
